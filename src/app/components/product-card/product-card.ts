@@ -7,9 +7,9 @@ import { Component, input } from '@angular/core';
   styleUrl: './product-card.css',
 })
 export class ProductCard {
-  productName = input<string>();
-  productImageUrl = input<string>();
-  productDescription = input<string>();
-  productPrice = input<number>();
+  productName = input.required<string>();
+  productImageUrl = input.required<string>();
+  productDescription = input.required<string>();
+  productPrice = input.required<number>();
 
 }

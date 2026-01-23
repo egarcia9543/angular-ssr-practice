@@ -1,0 +1,15 @@
+<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  @for (item of '12345678'; track $index) {
+
+  <div role="status" class="max-w-sm p-4 border border-default rounded-base shadow-xs animate-pulse md:p-6">
+    <div role="status"
+      class="flex items-center justify-center h-48 max-w-sm bg-neutral-300 rounded-base animate-pulse mb-4 sm:mb-6">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="h-2.5 bg-neutral-300 rounded-full w-48 mb-4"></div>
+    <div class="h-2 bg-neutral-300 rounded-full mb-2.5"></div>
+    <span class="sr-only">Loading...</span>
+  </div>
+
+  }
+</div>
