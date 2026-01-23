@@ -1,20 +1,17 @@
 <section>
   <div class="mx-auto px-4 py-8 sm:px-6 lg:px-8">
     <header>
-      <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Product Collection</h2>
+      <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Characters Collection</h2>
     </header>
 
-    @if(false) {
+    @if(charactersList().length === 0) {
       <app-products-skeleton />
     } @else {
       <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        @for (product of productsList(); track $index) {
+        @for (character of charactersList(); track $index) {
           <li>
-            <app-product-card
-              [productName]="product.title"
-              [productDescription]="product.description"
-              [productImageUrl]="product.images[0]"
-              [productPrice]="product.price"
+            <app-character-card
+              [character]="character"
             />
           </li>
         }

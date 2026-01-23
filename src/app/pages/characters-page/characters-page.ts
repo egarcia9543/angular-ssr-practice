@@ -1,20 +1,19 @@
 import { ApplicationRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { ProductsSkeleton } from "../../components/products-skeleton/products-skeleton";
-import { ProductsService } from '../../services/products-service';
-import { Product } from '../../interfaces/products.interface';
-import { ProductCard } from "../../components/product-card/product-card";
+import { ProductsService } from '../../services/characters-service';
+import { Characters } from '../../interfaces/characters.interface';
+import { CharacterCard } from "../../components/character-card/character-card";
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-products-page',
-  imports: [ProductsSkeleton, ProductCard],
-  templateUrl: './products-page.html',
-  styleUrl: './products-page.css',
+  selector: 'app-characters-page',
+  imports: [ProductsSkeleton, CharacterCard],
+  templateUrl: './characters-page.html',
 })
-export class ProductsPage implements OnInit, OnDestroy {
+export class CharactersPage implements OnInit, OnDestroy {
   public isLoading = signal(true);
   private appRef = inject(ApplicationRef);
   private _productService = inject(ProductsService);
@@ -26,7 +25,7 @@ export class ProductsPage implements OnInit, OnDestroy {
     console.log('Application is stable:', isStable);
   });
 
-  public productsList = signal<Product[]>([]);
+  public charactersList = signal<Characters[]>([]);
   public currentPage = toSignal(
     this._route.queryParamMap.pipe(
       map(params => params.get('page') ?? '1'),
@@ -66,13 +65,13 @@ export class ProductsPage implements OnInit, OnDestroy {
         });
       }),
       tap(() => {
-        this._title.setTitle(`Products - Page ${nextPageToLoad}`);
+        this._title.setTitle(`Characters - Page ${nextPageToLoad}`);
       })
     )
 
     .subscribe(
-      products => {
-        this.productsList.set(products);
+      characters => {
+        this.charactersList.set(characters.results);
       }
     )
   }

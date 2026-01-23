@@ -1,0 +1,15 @@
+<a href="#" class="group block border-1 rounded-lg border-gray-200 p-4 shadow-sm hover:shadow-lg transition-shadow">
+  <img [src]="character().image" [alt]="character().name" class="h-87.5 w-full object-cover sm:h-112.5">
+
+  <div class="mt-3 flex justify-between text-sm">
+    <div>
+      <h3 class="text-gray-900 group-hover:underline group-hover:underline-offset-4 font-bold">
+        {{ character().name }}
+      </h3>
+
+      <p class="mt-1.5 text-xs text-pretty text-gray-500 text-ellipsis overflow-hidden h-12 font-semibold">
+        {{ character().species }} - {{ character().status }}
+      </p>
+    </div>
+  </div>
+</a>
