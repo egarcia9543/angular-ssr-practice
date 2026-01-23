@@ -10,6 +10,6 @@ export class ProductsService {
   private http = inject(HttpClient);
 
   public loadPage(page: number, limit: number = 10): Observable<Product[]> {
-    return this.http.get<Product[]>(`https://api.escuelajs.co/api/v1/products?limit=${limit}&offset=${page}`);
+    return this.http.get<Product[]>(`https://api.escuelajs.co/api/v1/products?limit=${limit}&offset=${page*10}`);
   }
 }
