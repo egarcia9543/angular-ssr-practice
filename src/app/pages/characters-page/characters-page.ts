@@ -32,7 +32,9 @@ export class CharactersPage implements OnInit, OnDestroy {
       map(page => isNaN(Number(page)) ? 1 : +page),
       map(page => Math.max(1, page))
     )
-  )
+  );
+  public totalPages = signal(0);
+
 
   ngOnInit(): void {
     console.log('Current Page:', this.currentPage());
@@ -72,6 +74,7 @@ export class CharactersPage implements OnInit, OnDestroy {
     .subscribe(
       characters => {
         this.charactersList.set(characters.results);
+        this.totalPages.set(characters.info.pages);
       }
     )
   }

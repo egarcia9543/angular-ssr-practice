@@ -9,7 +9,7 @@ import { Characters, CharactersResponse } from '../interfaces/characters.interfa
 export class ProductsService {
   private http = inject(HttpClient);
 
-  public loadPage(page: number, limit: number = 10): Observable<CharactersResponse> {
-    return this.http.get<CharactersResponse>(`https://rickandmortyapi.com/api/character`);
+  public loadPage(page: number): Observable<CharactersResponse> {
+    return this.http.get<CharactersResponse>(`https://rickandmortyapi.com/api/character?page=${page}`);
   }
 }
