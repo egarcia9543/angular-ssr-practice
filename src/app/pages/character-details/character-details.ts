@@ -2,6 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Characters } from '../../interfaces/characters.interface';
 import { CharactersService } from '../../services/characters-service';
 import { ActivatedRoute } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-character-details',
@@ -12,6 +14,8 @@ import { ActivatedRoute } from '@angular/router';
 export class CharacterDetails implements OnInit {
   private _characterService = inject(CharactersService);
   private _route = inject(ActivatedRoute);
+  private _title = inject(Title);
+  private _meta = inject(Meta);
 
   public character = signal<Characters | null>(null);
 
@@ -23,7 +27,25 @@ export class CharacterDetails implements OnInit {
   }
 
   public loadCharacter(id: string) {
-    this._characterService.loadCharacterById(id).subscribe(response => {
+    this._characterService.loadCharacterById(id)
+    .pipe(
+      tap(character => {
+        this._title.setTitle(`${character.name}`);
+        this._meta.updateTag({
+          name: 'description', content: `Details about ${character.name}`
+        });
+        this._meta.updateTag({
+          name: 'og:title', content: `${character.name}`
+        });
+        this._meta.updateTag({
+          name: 'og:description', content: `Details about ${character.name}`
+        });
+        this._meta.updateTag({
+          name: 'og:image', content: character.image
+        });
+      })
+    )
+    .subscribe(response => {
       this.character.set(response);
     });
   }
