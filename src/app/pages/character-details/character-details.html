@@ -1,0 +1,29 @@
+<section>
+  @if (character() === null) {
+    <div class="flex items-center justify-center gap-2 h-56">
+      <span class="size-3 animate-ping rounded-full bg-indigo-600"></span>
+      <span class="size-3 animate-ping rounded-full bg-indigo-600 [animation-delay:0.2s]"></span>
+      <span class="size-3 animate-ping rounded-full bg-indigo-600 [animation-delay:0.4s]"></span>
+    </div>
+  }@else {
+    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:items-center md:gap-8">
+        <div>
+          <div class="max-w-prose md:max-w-none">
+            <h2 class="text-2xl font-semibold text-gray-900 sm:text-3xl">
+              {{ character()?.name }}
+            </h2>
+
+            <p class="mt-4 text-pretty text-gray-700">
+                {{ character()?.species }} from {{ character()?.origin?.name }} - {{ character()?.status }}. Known for {{ character()?.type || 'their unique characteristics' }}.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <img [src]="character()?.image" class="rounded" alt="{{ character()?.name }}" />
+        </div>
+      </div>
+    </div>
+  }
+</section>

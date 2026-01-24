@@ -18,6 +18,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/characters-page/characters-page').then(m => m.CharactersPage)
   },
   {
+    path: 'character/:id',
+    loadComponent: () => import('./pages/character-details/character-details').then(m => m.CharacterDetails)
+  },
+  {
     path: '**',
     redirectTo: 'about'
   }

@@ -1,6 +1,6 @@
 import { ApplicationRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { ProductsSkeleton } from "../../components/products-skeleton/products-skeleton";
-import { ProductsService } from '../../services/characters-service';
+import { CharactersService } from '../../services/characters-service';
 import { Characters } from '../../interfaces/characters.interface';
 import { CharacterCard } from "../../components/character-card/character-card";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { Title } from '@angular/platform-browser';
 export class CharactersPage implements OnInit, OnDestroy {
   public isLoading = signal(true);
   private appRef = inject(ApplicationRef);
-  private _productService = inject(ProductsService);
+  private _charactersService = inject(CharactersService);
   private _route = inject(ActivatedRoute);
   private _router = inject(Router);
   private _title = inject(Title);
@@ -59,7 +59,7 @@ export class CharactersPage implements OnInit, OnDestroy {
   public getProducts(nextPage: number = 0) {
     const nextPageToLoad = this.currentPage()! + nextPage;
 
-    this._productService.loadPage(nextPageToLoad)
+    this._charactersService.loadPage(nextPageToLoad)
     .pipe(
       tap(() => {
         this._router.navigate([], {

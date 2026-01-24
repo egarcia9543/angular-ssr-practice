@@ -6,10 +6,14 @@ import { Characters, CharactersResponse } from '../interfaces/characters.interfa
 @Injectable({
   providedIn: 'root',
 })
-export class ProductsService {
+export class CharactersService {
   private http = inject(HttpClient);
 
   public loadPage(page: number): Observable<CharactersResponse> {
     return this.http.get<CharactersResponse>(`https://rickandmortyapi.com/api/character?page=${page}`);
+  }
+
+  public loadCharacterById(id: string): Observable<Characters> {
+    return this.http.get<Characters>(`https://rickandmortyapi.com/api/character/${id}`);
   }
 }
