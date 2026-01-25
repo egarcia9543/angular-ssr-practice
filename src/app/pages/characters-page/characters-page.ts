@@ -35,7 +35,7 @@ export class CharactersPage implements OnInit, OnDestroy {
   );
   public totalPages = signal(0);
 
-  public loadOnPageReady = effect(() => { this.getCharacters(this.currentPage()!) });
+  public loadOnPageReady = effect(() => { this.getCharacters() });
 
 
   ngOnInit(): void {
@@ -58,8 +58,9 @@ export class CharactersPage implements OnInit, OnDestroy {
     // this.getCharacters()
   }
 
-  public getCharacters(nextPage: number = 0) {
-    const nextPageToLoad = this.currentPage()! + nextPage;
+  public getCharacters() {
+    const nextPageToLoad = this.currentPage()!;
+    console.log(nextPageToLoad)
 
     this._charactersService.loadPage(nextPageToLoad)
       .pipe(
