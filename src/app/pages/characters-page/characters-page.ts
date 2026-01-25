@@ -1,16 +1,16 @@
-import { ApplicationRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { ApplicationRef, Component, effect, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { ProductsSkeleton } from "../../components/products-skeleton/products-skeleton";
 import { CharactersService } from '../../services/characters-service';
 import { Characters } from '../../interfaces/characters.interface';
 import { CharacterCard } from "../../components/character-card/character-card";
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-characters-page',
-  imports: [ProductsSkeleton, CharacterCard],
+  imports: [ProductsSkeleton, CharacterCard, RouterLink],
   templateUrl: './characters-page.html',
 })
 export class CharactersPage implements OnInit, OnDestroy {
@@ -27,13 +27,15 @@ export class CharactersPage implements OnInit, OnDestroy {
 
   public charactersList = signal<Characters[]>([]);
   public currentPage = toSignal(
-    this._route.queryParamMap.pipe(
-      map(params => params.get('page') ?? '1'),
+    this._route.params.pipe(
+      map(params => params['page'] ?? '1'),
       map(page => isNaN(Number(page)) ? 1 : +page),
       map(page => Math.max(1, page))
     )
   );
   public totalPages = signal(0);
+
+  public loadOnPageReady = effect(() => { this.getCharacters(this.currentPage()!) });
 
 
   ngOnInit(): void {
@@ -53,30 +55,25 @@ export class CharactersPage implements OnInit, OnDestroy {
     //   this.isLoading.set(false);
     // }, 5000);
 
-    this.getProducts()
+    // this.getCharacters()
   }
 
-  public getProducts(nextPage: number = 0) {
+  public getCharacters(nextPage: number = 0) {
     const nextPageToLoad = this.currentPage()! + nextPage;
 
     this._charactersService.loadPage(nextPageToLoad)
-    .pipe(
-      tap(() => {
-        this._router.navigate([], {
-          queryParams: { page: nextPageToLoad },
-        });
-      }),
-      tap(() => {
-        this._title.setTitle(`Characters - Page ${nextPageToLoad}`);
-      })
-    )
+      .pipe(
+        tap(() => {
+          this._title.setTitle(`Characters - Page ${nextPageToLoad}`);
+        })
+      )
 
-    .subscribe(
-      characters => {
-        this.charactersList.set(characters.results);
-        this.totalPages.set(characters.info.pages);
-      }
-    )
+      .subscribe(
+        characters => {
+          this.charactersList.set(characters.results);
+          this.totalPages.set(characters.info.pages);
+        }
+      )
   }
 
   ngOnDestroy(): void {
