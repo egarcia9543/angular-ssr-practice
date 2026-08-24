@@ -1,0 +1,15 @@
+# Solo cabeceras. El comando de build y el directorio de publicación siguen
+# definidos en la UI de Netlify; netlify.toml tiene prioridad sobre la UI, así
+# que declarar aquí únicamente lo necesario evita pisar esa configuración.
+
+# Los bundles llevan hash en el nombre, así que un año de caché es correcto para
+# ellos. Para robots.txt sería peligroso: si se publica un `Disallow` por error,
+# la caché impediría corregirlo durante un año.
+#
+# En el servidor Express esto se resolvía en `express.static`; con Netlify los
+# estáticos los sirve el CDN, que nunca pasa por la función SSR, por lo que la
+# regla tiene que vivir aquí.
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
