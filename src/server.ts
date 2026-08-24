@@ -6,6 +6,7 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { getSitemapXml } from './sitemap';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -13,16 +14,29 @@ const app = express();
 const angularApp = new AngularNodeAppEngine();
 
 /**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
+ * sitemap.xml generado en tiempo de ejecución.
  *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
+ * Va declarado ANTES del middleware que renderiza Angular: Express evalúa los
+ * handlers en orden, y el catch-all de más abajo captura cualquier ruta que
+ * llegue hasta él. Si este bloque estuviera después, `/sitemap.xml` intentaría
+ * resolverse como una ruta de la aplicación y devolvería HTML.
+ *
+ * La cabecera `Content-Type: application/xml` es obligatoria: servido como
+ * `text/html`, el rastreador descarta el archivo sin procesarlo.
  */
+app.get('/sitemap.xml', async (_req, res, next) => {
+  try {
+    const xml = await getSitemapXml();
+
+    res.header('Content-Type', 'application/xml; charset=utf-8');
+    // Una hora de caché en CDN. El sitemap cambia poco y los bots lo piden
+    // seguido, así que conviene no regenerarlo en cada visita.
+    res.header('Cache-Control', 'public, max-age=3600');
+    res.send(xml);
+  } catch (error) {
+    next(error);
+  }
+});
 
 /**
  * Serve static files from /browser
@@ -32,6 +46,14 @@ app.use(
     maxAge: '1y',
     index: false,
     redirect: false,
+    setHeaders(res, path) {
+      // El `maxAge` de un año es correcto para los bundles, que llevan hash en
+      // el nombre. Para `robots.txt` sería peligroso: si se publica un
+      // `Disallow` por error, la caché impediría corregirlo durante un año.
+      if (path.endsWith('robots.txt')) {
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+      }
+    },
   }),
 );
 

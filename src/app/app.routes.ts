@@ -22,7 +22,15 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/character-details/character-details').then(m => m.CharacterDetails)
   },
   {
+    /**
+     * Ruta comodín.
+     *
+     * Renderiza una página 404 real en lugar de redirigir a `/about`.
+     * Redirigir devolvería 200 OK para URLs inexistentes (soft 404), lo que
+     * hace que el buscador indexe basura. El código 404 se declara en
+     * `app.routes.server.ts`.
+     */
     path: '**',
-    redirectTo: 'about'
+    loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFound)
   }
 ];

@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { MetatagsGenerator } from '../../services/metatags-generator';
+import { Component, inject, OnInit } from '@angular/core';
+import { contactPageSchema } from '../../config/schema-org';
+import { PAGE_SEO } from '../../config/seo.config';
+import { Seo } from '../../services/seo';
 
 @Component({
   selector: 'app-contact-page',
@@ -8,11 +9,11 @@ import { MetatagsGenerator } from '../../services/metatags-generator';
   templateUrl: './contact-page.html',
   styleUrl: './contact-page.css',
 })
-export class ContactPage {
-  private title = inject(Title);
-  private _metatagSrv = inject(MetatagsGenerator);
+export class ContactPage implements OnInit {
+  private readonly _seo = inject(Seo);
 
   ngOnInit(): void {
-    this.title.setTitle(this._metatagSrv.getPageTitle());
+    this._seo.update(PAGE_SEO.contact);
+    this._seo.setJsonLd('ld-contact', contactPageSchema());
   }
 }

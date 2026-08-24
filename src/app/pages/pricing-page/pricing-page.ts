@@ -1,7 +1,7 @@
-import { Component, inject, PLATFORM_ID } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { MetatagsGenerator } from '../../services/metatags-generator';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { PAGE_SEO } from '../../config/seo.config';
+import { Seo } from '../../services/seo';
 
 @Component({
   selector: 'app-pricing-page',
@@ -9,25 +9,25 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './pricing-page.html',
   styleUrl: './pricing-page.css',
 })
-export class PricingPage {
-  private title = inject(Title);
-  private _metatagSrv = inject(MetatagsGenerator);
-
-  private _platform = inject(PLATFORM_ID); // Give us info about the platform (server or client)
+export class PricingPage implements OnInit {
+  private readonly _seo = inject(Seo);
+  private readonly _platform = inject(PLATFORM_ID);
 
   ngOnInit(): void {
     /**
-     * We must check if we are in the client or server side
+     * El SEO se aplica SIEMPRE, en servidor y en cliente.
+     *
+     * Es un error frecuente envolver las meta tags en `isPlatformBrowser`:
+     * el rastreador lee el HTML que emite el servidor, así que las etiquetas
+     * generadas solo en el navegador llegan tarde o no llegan. Este servicio
+     * usa el token `DOCUMENT`, que en SSR apunta al DOM sintético de
+     * `platform-server`, por lo que funciona en ambos entornos.
      */
-
-    console.log('Platform ID:', this._platform);
-
-    // document.title =  "Titulo Hardcoded" - This line works only in the client side, there's no document in the server side
+    this._seo.update(PAGE_SEO.pricing);
 
     if (isPlatformBrowser(this._platform)) {
-      console.log('We are in the browser');
+      // Aquí sí corresponde la guarda: cualquier API exclusiva del navegador
+      // (`window`, `localStorage`, `IntersectionObserver`) lanzaría en Node.
     }
-
-    this.title.setTitle(this._metatagSrv.getPageTitle());
   }
 }

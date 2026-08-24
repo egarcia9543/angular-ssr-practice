@@ -6,7 +6,8 @@ import { CharacterCard } from "../../components/character-card/character-card";
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, tap } from 'rxjs';
-import { Title } from '@angular/platform-browser';
+import { characterListSchema } from '../../config/schema-org';
+import { Seo } from '../../services/seo';
 
 @Component({
   selector: 'app-characters-page',
@@ -19,7 +20,7 @@ export class CharactersPage implements OnInit, OnDestroy {
   private _charactersService = inject(CharactersService);
   private _route = inject(ActivatedRoute);
   private _router = inject(Router);
-  private _title = inject(Title);
+  private _seo = inject(Seo);
 
   private $appState = this.appRef.isStable.subscribe((isStable) => {
     console.log('Application is stable:', isStable);
@@ -60,21 +61,49 @@ export class CharactersPage implements OnInit, OnDestroy {
 
   public getCharacters() {
     const nextPageToLoad = this.currentPage()!;
-    console.log(nextPageToLoad)
 
     this._charactersService.loadPage(nextPageToLoad)
       .pipe(
-        tap(() => {
-          this._title.setTitle(`Characters - Page ${nextPageToLoad}`);
-        })
+        tap(response => this._applySeo(nextPageToLoad, response.results))
       )
-
       .subscribe(
         characters => {
           this.charactersList.set(characters.results);
           this.totalPages.set(characters.info.pages);
         }
       )
+  }
+
+  /**
+   * SEO de un listado paginado.
+   *
+   * Dos decisiones que suelen hacerse mal:
+   *
+   * 1. **Canonical auto-referencial.** Cada página apunta a sí misma
+   *    (`/characters/page/3` → `/characters/page/3`), NO a la página 1.
+   *    Canonicalizar todo hacia la primera página le dice a Google que las
+   *    demás son duplicados, y deja de rastrearlas: se pierden del índice los
+   *    personajes que solo aparecen ahí.
+   *
+   * 2. **Sin `rel="prev"` / `rel="next"`.** Google dejó de usarlos en 2019 y
+   *    lo anunció públicamente. Mantenerlos no hace daño, pero no aporta nada
+   *    en Google; la señal que sí cuenta hoy es que las páginas estén
+   *    enlazadas entre sí con `<a href>` rastreables.
+   *
+   * El título incluye el número de página para que los resultados de la SERP
+   * no se vean como duplicados entre sí.
+   */
+  private _applySeo(page: number, characters: Characters[]): void {
+    this._seo.update({
+      title: page === 1 ? 'Personajes' : `Personajes — página ${page}`,
+      description:
+        page === 1
+          ? 'Explora el catálogo completo de personajes de Rick and Morty con su especie, origen y estado.'
+          : `Página ${page} del catálogo de personajes de Rick and Morty.`,
+      path: `/characters/page/${page}`,
+    });
+
+    this._seo.setJsonLd('ld-character-list', characterListSchema(characters, page));
   }
 
   ngOnDestroy(): void {

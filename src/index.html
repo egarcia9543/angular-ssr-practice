@@ -1,11 +1,34 @@
 <!doctype html>
-<html lang="en">
+<!--
+  `lang` es una señal real de SEO y una obligación de accesibilidad: le dice al
+  buscador a qué audiencia idiomática dirigir la página y al lector de pantalla
+  con qué pronunciación leerla. Debe coincidir con `SITE_LOCALE` en
+  `src/app/config/seo.config.ts`.
+-->
+<html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>SsrProject</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!--
+    Valores por defecto del `<head>`.
+
+    Actúan como red de seguridad: si una ruta olvidara llamar al servicio `Seo`,
+    el rastreador todavía recibiría un título y una descripción válidos en
+    lugar de nada. El servicio los sobrescribe en cada navegación.
+  -->
+  <title>Rick &amp; Morty Explorer</title>
+  <meta name="description"
+        content="Explora los personajes del universo de Rick and Morty: biografía, especie, origen y estado de cada uno.">
+
+  <!--
+    `index, follow` es el comportamiento por defecto de los rastreadores aunque
+    no se declare. Se escribe de forma explícita porque documenta la intención
+    y evita que alguien asuma que falta configuración.
+  -->
+  <meta name="robots" content="index, follow">
 </head>
 <body>
   <app-root></app-root>

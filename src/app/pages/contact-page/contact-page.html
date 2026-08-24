@@ -1,1 +1,30 @@
-<p>contact-page works!</p>
+<section class="mx-auto max-w-3xl px-4 py-12">
+  <h1 class="text-3xl font-semibold text-gray-900 sm:text-4xl">Contacto</h1>
+
+  <p class="mt-6 text-pretty text-gray-700">
+    ¿Dudas sobre renderizado en servidor, indexación o datos estructurados?
+    Escríbenos y respondemos en español o inglés.
+  </p>
+
+  <!--
+    Estos datos son los mismos que declara `contactPageSchema()` en
+    `src/app/config/schema-org.ts`. Deben mantenerse sincronizados: si el
+    JSON-LD anuncia un correo que no aparece en la página, el marcado deja de
+    ser válido.
+  -->
+  <dl class="mt-8 space-y-4">
+    <div>
+      <dt class="text-sm font-medium text-gray-500">Correo</dt>
+      <dd class="mt-1 text-gray-900">
+        <a href="mailto:hola@example.com" class="text-indigo-600 underline">
+          hola@example.com
+        </a>
+      </dd>
+    </div>
+
+    <div>
+      <dt class="text-sm font-medium text-gray-500">Idiomas de atención</dt>
+      <dd class="mt-1 text-gray-900">Español · Inglés</dd>
+    </div>
+  </dl>
+</section>

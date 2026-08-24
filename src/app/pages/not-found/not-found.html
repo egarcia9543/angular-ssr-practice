@@ -1,0 +1,33 @@
+<section class="mx-auto flex max-w-2xl flex-col items-center px-4 py-24 text-center">
+  <p class="text-6xl font-bold text-indigo-600">404</p>
+
+  <h1 class="mt-4 text-3xl font-semibold text-gray-900 sm:text-4xl">
+    Esta dimensión no existe
+  </h1>
+
+  <p class="mt-4 text-pretty text-gray-600">
+    La página que buscas fue movida o nunca estuvo aquí. Prueba volviendo al
+    listado de personajes.
+  </p>
+
+  <!--
+    Los enlaces de recuperación no son decorativos: junto con `follow` en el
+    meta robots, permiten que el rastreador vuelva al contenido indexable
+    desde una URL rota.
+  -->
+  <div class="mt-8 flex flex-wrap justify-center gap-3">
+    <a
+      routerLink="/characters/page/1"
+      class="rounded bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-700"
+    >
+      Ver personajes
+    </a>
+
+    <a
+      routerLink="/about"
+      class="rounded border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+    >
+      Sobre el proyecto
+    </a>
+  </div>
+</section>

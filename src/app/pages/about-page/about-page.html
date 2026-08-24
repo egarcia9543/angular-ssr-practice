@@ -1,1 +1,36 @@
-<p>about-page works!</p>
+<!--
+  El structured data debe describir contenido REALMENTE visible. Estas páginas
+  tienen texto real precisamente por eso: declarar entidades schema.org sobre
+  un marcador de posición sería marcado engañoso.
+-->
+<section class="mx-auto max-w-3xl px-4 py-12">
+  <!--
+    Una sola `<h1>` por página, y que coincida con el tema del `<title>`.
+    Es la señal jerárquica más fuerte del documento.
+  -->
+  <h1 class="text-3xl font-semibold text-gray-900 sm:text-4xl">
+    Sobre el proyecto
+  </h1>
+
+  <p class="mt-6 text-pretty text-gray-700">
+    Rick &amp; Morty Explorer es un laboratorio de Angular con Server-Side
+    Rendering construido para practicar SEO técnico sobre una aplicación real,
+    no sobre ejemplos aislados.
+  </p>
+
+  <h2 class="mt-10 text-xl font-semibold text-gray-900">Qué se practica aquí</h2>
+
+  <ul class="mt-4 space-y-2 text-gray-700">
+    <li>· Meta tags dinámicas y URLs canónicas gestionadas desde un servicio único.</li>
+    <li>· Control de indexación con <code class="rounded bg-gray-100 px-1">noindex</code> y códigos de estado correctos.</li>
+    <li>· <code class="rounded bg-gray-100 px-1">robots.txt</code> y sitemap XML generado en tiempo de ejecución.</li>
+    <li>· Datos estructurados schema.org en formato JSON-LD.</li>
+  </ul>
+
+  <p class="mt-8 text-gray-700">
+    Los datos provienen de la
+    <a href="https://rickandmortyapi.com/" rel="noopener" target="_blank"
+       class="text-indigo-600 underline">Rick and Morty API</a>,
+    un servicio público y gratuito.
+  </p>
+</section>

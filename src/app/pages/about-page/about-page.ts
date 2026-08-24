@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { MetatagsGenerator } from '../../services/metatags-generator';
+import { PAGE_SEO } from '../../config/seo.config';
+import { Seo } from '../../services/seo';
 
 @Component({
   selector: 'app-about-page',
@@ -9,10 +9,9 @@ import { MetatagsGenerator } from '../../services/metatags-generator';
   styleUrl: './about-page.css',
 })
 export class AboutPage implements OnInit {
-  private title = inject(Title);
-  private _metatagSrv = inject(MetatagsGenerator);
+  private readonly _seo = inject(Seo);
 
   ngOnInit(): void {
-    this.title.setTitle(this._metatagSrv.getPageTitle());
+    this._seo.update(PAGE_SEO.about);
   }
 }
