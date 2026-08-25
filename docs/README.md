@@ -15,6 +15,10 @@ Cada tema tiene su propio archivo con tres secciones:
 |---|------|---------|--------|
 | 01 | SEO técnico — meta tags, noindex, robots.txt, sitemaps, schema.org | [01-seo-tecnico.md](./01-seo-tecnico.md) | ✅ Implementado y verificado |
 | 02 | Accesibilidad y estándares ARIA | [02-accesibilidad-aria.md](./02-accesibilidad-aria.md) | 📖 Teoría lista · práctica pendiente |
+| 03 | Estrategias de micro-frontends — runtime compartido vs. no compartido | [03-micro-frontends.md](./03-micro-frontends.md) | 📖 Teoría lista · práctica acotada |
+| 04 | Patrones de diseño GoF aplicados al frontend | [04-patrones-de-diseno.md](./04-patrones-de-diseno.md) | 📖 Teoría lista · práctica pendiente |
+| 05 | Guardado de datos en el navegador — storage, cookies, IndexedDB, BD | [05-almacenamiento-navegador.md](./05-almacenamiento-navegador.md) | 📖 Teoría lista · práctica pendiente |
+| 06 | Seguridad web — XSS, CSP y algoritmos de cifrado | [06-seguridad-xss-cifrado.md](./06-seguridad-xss-cifrado.md) | 📖 Teoría lista · práctica pendiente |
 
 ---
 

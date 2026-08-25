@@ -1,58 +1,9 @@
 # robots.txt — Rick & Morty Explorer
-#
-# Protocolo de exclusión de robots. Se sirve SIEMPRE desde la raíz del dominio
-# (https://midominio.com/robots.txt); en cualquier otra ruta los rastreadores
-# lo ignoran.
-#
-# Qué es y qué NO es:
-#   - Controla el RASTREO (si el bot puede descargar la URL).
-#   - NO controla la INDEXACIÓN. Una URL bloqueada aquí puede seguir
-#     apareciendo en resultados si otros sitios la enlazan; Google la mostrará
-#     sin descripción porque no pudo leerla.
-#   - Para impedir la indexación se usa `<meta name="robots" content="noindex">`,
-#     y para que el bot lo lea, la URL NO debe estar bloqueada en este archivo.
-#     Bloquear y poner noindex a la vez es contradictorio: el bot nunca ve el
-#     noindex.
-#
-# Es un archivo público. Nunca listes aquí rutas sensibles: equivale a publicar
-# un índice de lo que quieres esconder.
 
-# ---------------------------------------------------------------------------
-# Reglas generales para todos los rastreadores
-# ---------------------------------------------------------------------------
 User-agent: *
 
-# Rutas técnicas sin valor de búsqueda.
-Disallow: /api/
-
-# Parámetros de campañas y de sesión: generan infinitas variantes de la misma
-# página y agotan el presupuesto de rastreo (crawl budget).
-Disallow: /*?utm_source=
-Disallow: /*?utm_medium=
-Disallow: /*?utm_campaign=
-Disallow: /*?sessionid=
-
-# El resto del sitio es rastreable.
 Allow: /
 
-# ---------------------------------------------------------------------------
-# Rastreadores de IA
-# ---------------------------------------------------------------------------
-# No todos hacen lo mismo, y meterlos en el mismo saco es el error habitual.
-# Hay tres tipos con consecuencias de negocio opuestas:
-#
-#   1. ENTRENAMIENTO      → alimentan el modelo. Bloquearlos NO cuesta tráfico.
-#   2. BÚSQUEDA / RAG     → responden citando fuentes. Bloquearlos te saca de
-#                           las respuestas con IA: sí cuesta visibilidad.
-#   3. DISPARADO POR USUARIO → alguien pegó tu URL en un chat. Bloquearlos
-#                           impide que esa persona lea tu página.
-#
-# Este laboratorio permite todo: el contenido es público y didáctico, y para un
-# proyecto de portafolio aparecer citado es deseable.
-#
-# ADVERTENCIA: esto es cumplimiento VOLUNTARIO. Es una señal, no un control de
-# acceso. Hay bots que lo ignoran o falsean su user-agent. Para bloqueo real
-# hacen falta reglas de WAF/CDN o autenticación.
 
 # --- Entrenamiento de modelos ---
 User-agent: GPTBot
@@ -61,10 +12,7 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
-User-agent: CCBot
-Allow: /
-
-# --- Búsqueda con IA (aquí es donde se gana o se pierde visibilidad) ---
+# --- Búsqueda con IA ---
 User-agent: OAI-SearchBot
 Allow: /
 
@@ -81,20 +29,4 @@ Allow: /
 User-agent: Claude-User
 Allow: /
 
-# --- Señales de política, NO rastreadores ---
-# `Google-Extended` no es un bot: ningún cliente HTTP usa ese user-agent. Quien
-# rastrea sigue siendo Googlebot. Este token solo decide si el contenido ya
-# rastreado puede alimentar a Gemini, y NO afecta al posicionamiento en Google
-# Search. `Applebot-Extended` cumple el mismo papel con Apple Intelligence.
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Applebot-Extended
-Allow: /
-
-# ---------------------------------------------------------------------------
-# Sitemap
-# ---------------------------------------------------------------------------
-# Debe ser una URL ABSOLUTA y es independiente de los bloques User-agent:
-# aplica al archivo completo. Se pueden declarar varias líneas Sitemap.
 Sitemap: https://angular-ssr-practice.netlify.app/sitemap.xml
