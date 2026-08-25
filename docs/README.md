@@ -14,6 +14,7 @@ Cada tema tiene su propio archivo con tres secciones:
 | # | Tema | Archivo | Estado |
 |---|------|---------|--------|
 | 01 | SEO técnico — meta tags, noindex, robots.txt, sitemaps, schema.org | [01-seo-tecnico.md](./01-seo-tecnico.md) | ✅ Implementado y verificado |
+| 02 | Accesibilidad y estándares ARIA | [02-accesibilidad-aria.md](./02-accesibilidad-aria.md) | 📖 Teoría lista · práctica pendiente |
 
 ---
 
